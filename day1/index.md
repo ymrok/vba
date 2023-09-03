@@ -143,7 +143,7 @@ VBA （ Visual Basic for Applications ）は Excel などで行う「一連の�
 
 #### 構文
 
-```Visual Basic
+```vba
 Private Sub オブジェクト名_VBA のコードを実行するときのアクション(引数)
 
     VBA のコード
