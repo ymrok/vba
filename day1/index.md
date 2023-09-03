@@ -170,7 +170,7 @@ End Sub
 
 オブジェクト CommandButoon1 がクリックされたときに VBA のコードを実行します。引数はありません。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     VBA のコード
@@ -182,7 +182,7 @@ End Sub
 
 オブジェクト CommandButoon1 がダブルクリックされたときに VBA のコードを実行します。引数として変数 Cancel が指定されます。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 
     VBA のコード
@@ -200,7 +200,7 @@ End Sub
 
 単一のセル位置を指定します。範囲指定は行えません。
 
-```Visual Basic
+```vba
 Cells(行位置 , カラム位置)
 ```
 
@@ -214,7 +214,7 @@ Cells(行位置 , カラム位置)
 
 セル位置 C10 は次のように指定します。
 
-```Visual Basic
+```vba
 Cells(10, 3)
 ```
 
@@ -222,13 +222,13 @@ Cells(10, 3)
 
 ##### 単一のセル位置を指定する（単一指定）
 
-```Visual Basic
+```vba
 Range(セル位置)
 ```
 
 セル位置は "A1" などのように `"` でくくって指定します。
 
-```Visual Basic
+```vba
 Range("A1")
 ```
 
@@ -236,37 +236,37 @@ Range("A1")
 
 ###### その 1
 
-```Visual Basic
+```vba
 Range(開始セル位置:終了セル位置)
 ```
 
 開始と終了のセル位置を `:` で繋げ、全体を `"` でくくって指定します。例えば、セル C1 から D10 まで指定するには次のように指定します。
 
-```Visual Basic
+```vba
 Range("C1:D10")
 ```
 
 ###### その 2
 
-```Visual Basic
+```vba
 Range(開始セル位置 , 終了セル位置)
 ```
 
 開始と終了のセル位置を `,` で繋げます。それぞれのセル位置は `"` でくくります。例えば、セル C1 から D10 まで指定するには次のように指定します。
 
-```Visual Basic
+```vba
 Range("C1" , "D10")
 ```
 
 ###### その 3
 
-```Visual Basic
+```vba
 Range(Cells(開始行位置、開始カラム位置) , Cells(終了行位置、終了カラム位置))
 ```
 
 `Cells` はセル位置を指定します。`Cells` で開始セル位置と終了セル位置を指定し、範囲を `Range` で指定します。例えば、セル C1 から D10 まで指定するには次のように指定します。
 
-```Visual Basic
+```vba
 Range(Cells(1, 3) , Cells(10, 4))
 ```
 
@@ -274,31 +274,31 @@ Range(Cells(1, 3) , Cells(10, 4))
 
 セルの位置を指定する `Cells` や `Range` に続けて `.Value` を指定すると、指定したセル位置の値を指します。セル F1 の値は次のように指定します。
 
-```Visual Basic
+```vba
 Range("F1").Value
 ```
 
-```Visual Basic
+```vba
 Cells(1, 6).Value
 ```
 
 セル G1 の値です。
 
-```Visual Basic
+```vba
 Range("G1").Value
 ```
 
-```Visual Basic
+```vba
 Cells(1, 7).Value
 ```
 
 セル H1 の値です。
 
-```Visual Basic
+```vba
 Range("H1").Value
 ```
 
-```Visual Basic
+```vba
 Cells(1, 8).Value
 ```
 
@@ -324,7 +324,7 @@ Cells(1, 8).Value
 
 #### 計算式
 
-```Visual Basic
+```vba
 答え = 値1 演算子 値2
 ```
 
@@ -353,7 +353,7 @@ Cells(1, 8).Value
 
 #### Cells を使用した場合
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Cells(1, 8).Value = Cells(1, 6).Value + Cells(1, 7).Value
@@ -365,7 +365,7 @@ End Sub
 
 #### Range を使用した場合
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Range("H1").Value = Range("F1").Value + Range("G1").Value
@@ -428,19 +428,19 @@ VBA には変数名として使用できない単語があります。この単�
 
 変数名と型を組み合わせて、変数を宣言します。
 
-```Visual Basic
+```vba
 Dim 変数名 As 型
 ```
 
 例えば、行位置用の変数は次のように宣言します。コードを入力するとき、変数名の英字部分はすべて小文字で入力して問題ありません。VBA が変数名の宣言どおりに英大文字、英小文字まじりの変数名に自動的に変換します。
 
-```Visual Basic
+```vba
 Dim Long_Row As Long
 ```
 
 実際のコードの中では最初にまとめて宣言します。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long
@@ -452,7 +452,7 @@ End Sub
 
 良くない例です。変数 i だけでは用途も型も推測できません。
 
-```Visual Basic
+```vba
 Dim i As Long
 ```
 
@@ -462,13 +462,13 @@ VBA のコード内に `'` を入れると、そこから行末までがコメ�
 
 変数宣言とコメントを組み合わせた例です。
 
-```Visual Basic
+```vba
 Dim Long_Row As Long     ' 行位置
 ```
 
 コードの中に適切なコメントを追加することで、コードの可読性が向上します。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long                ' 行位置
@@ -496,7 +496,7 @@ H3 = F3 + G3
 
 ### For ･･･ Next
 
-```Visual Basic
+```vba
 For 変数 = 初期値 To 終了値 Step 増分値
 
     VBA のコード
@@ -525,7 +525,7 @@ Next 変数
 
 `Cells` の行位置を変数 Long_Row に置き換え、`For` ループと組み合わせることで 3 行の計算式が 1 行に置き換わりました。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long                ' 行位置
@@ -546,13 +546,13 @@ End Sub
 
 `Range` のセル位置指定の行部分を変数 Long_Row に置き換え、カラム部分と演算子 `&` で文字列として結合してセル位置を作成しました。
 
-```Visual Basic
+```vba
 Range(カラム部分 & Long_Row)
 ```
 
 `For` ループと組み合わせることで 3 行の計算式が 1 行に置き換わりました。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long                ' 行位置
@@ -571,7 +571,7 @@ End Sub
 
 カラム部分を `"` でくくらないと変数 H 、変数 F 、変数 G と解釈されます。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long                ' 行位置
@@ -598,25 +598,25 @@ End Sub
 
 値が入っている最終行は次の計算式で求められます。
 
-```Visual Basic
+```vba
 Cells(Rows.Count, カラム位置).End(xlUp).Row
 ```
 
 `Rows.Count` にシートの最終行の行位置が格納されています。MS365 の Excel で確認すると最終行は 1048576 でした。F 列の最終行のセル位置は次のようになります。
 
-```Visual Basic
+```vba
 Cells(Rows.Count, 6)
 ```
 
 `End(xlUp)` は `Cells` で指定したセル位置から上方向に値が入っているセル位置を示します。最後の `Row` は `Cells(Rows.Count, 6).End(xlUp)` で示されたセルの行番号です。F 列の最終行は次の式で求められます。
 
-```Visual Basic
+```vba
 Cells(Rows.Count, 6).End(xlUp).Row
 ```
 
 終了値を上記の式に置き換えることで、セルの最終行が変更になってもコードの変更は不要です。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row As Long                ' 行位置
@@ -635,7 +635,7 @@ End Sub
 
 終了値を計算式に置き換えたことで 1 行が長くなり、少し見づらくなりました。この様な場合、終了値を変数に設定するよう変更するほうが可読性の観点から望ましいです。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row     As Long            ' 行位置
@@ -662,7 +662,7 @@ End Sub
 
 特定の条件が成立した（不成立だった）ときにだけコードを実行したい場合 `If` 文を使用します。
 
-```Visual Basic
+```vba
 If 条件式 Then
     条件が成立したとき実行する VBA のコード
 Else
@@ -674,7 +674,7 @@ End If
 
 条件が不成立のときに実行するコードが不要な場合、次のとおりです。
 
-```Visual Basic
+```vba
 If 条件式 Then
     条件が成立したとき実行する VBA のコード
 End If
@@ -690,7 +690,7 @@ End If
 
 比較演算子を使用して 2 つの値を比較する条件式を作成します。
 
-```Visual Basic
+```vba
 値1　比較演算子　値2
 ```
 
@@ -709,7 +709,7 @@ End If
 
 論理演算子を使用して 2 つ以上の条件式を結合して、条件式全体として成立／不成立を決定します。
 
-```Visual Basic
+```vba
 条件式1　論理演算子　条件式2
 ```
 
@@ -744,19 +744,19 @@ End If
 
 論理演算子は 2 つ以上の条件式を結合し、全体として 1 つの条件式を構成します。条件式を結合する場合、使用する論理演算子が `And` だけ、`Or` だけの場合は上記のルールに従います。 `And` と `Or` が混在する場合 `And` が優先して比較します。
 
-```Visual Basic
+```vba
 条件式1　Or　条件式2　And　条件式３
 ```
 
 まず、次の条件式を評価します。
 
-```Visual Basic
+```vba
 条件式2　And　条件式３
 ```
 
 次に 条件1 と上記の `And` の結果を比較し、全体としての結果を決定します。
 
-```Visual Basic
+```vba
 条件式1　Or　先に評価した結果
 ```
 
@@ -764,19 +764,19 @@ End If
 
 条件式を `(` `)` でくくることで、論理演算子の優先順位を変更できます。
 
-```Visual Basic
+```vba
 (条件式1　Or　条件式2)　And　条件式３
 ```
 
 まず、カッコの中の条件式を評価します。
 
-```Visual Basic
+```vba
 条件式1　Or　条件式2
 ```
 
 次に 条件3 と上記の `Or` の結果を比較し、全体としての結果を決定します。
 
-```Visual Basic
+```vba
 先に評価した結果 And 条件3
 ```
 
@@ -790,7 +790,7 @@ H 列の結果を元に、条件にもとづき I 列に文字列を設定しま
 | 101 以上　～　200 未満 | 良い | H 列の値 >= 101　And H 列の値 < 200 |
 | 200 以上 | 大きい | H 列の値 >= 200 |
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row     As Long            ' 行位置
@@ -831,7 +831,7 @@ End Sub
 
 #### 色を色コードで指定
 
-```Visual Basic
+```vba
 Range(セル位置).Interior.Color = 色コード
 ```
 
@@ -848,23 +848,23 @@ Range(セル位置).Interior.Color = 色コード
 
 セル H1 を黄色で塗りつぶすときは次のように指定します。
 
-```Visual Basica
+```vbaa
 Range("H1").Interior.Color = vbYellow
 ```
 
 セル H1 ～ H10 を黄色で塗りつぶすときは次のように指定します。
 
-```Visual Basica
+```vbaa
 Range("H1:H10").Interior.Color = vbYellow
 ```
 
-```Visual Basica
+```vbaa
 Range("H1", "H10").Interior.Color = vbYellow
 ```
 
 #### 色を RGB で指定
 
-```Visual Basic
+```vba
 Range(セル位置).Interior.Color = RGB(赤, 緑, 青)
 ```
 
@@ -874,17 +874,17 @@ Range(セル位置).Interior.Color = RGB(赤, 緑, 青)
 
 セル H1 をオレンジ色で塗りつぶすときは次のように指定します。
 
-```Visual Basic
+```vba
 Range("H1").Interior.Color = RGB(255, 165, 0)
 ```
 
 セル H1 ～ H10 をオレンジ色で塗りつぶすときは次のように指定します。
 
-```Visual Basic
+```vba
 Range("H1:H10").Interior.Color = RGB(255, 165, 0)
 ```
 
-```Visual Basic
+```vba
 Range("H1", "H10").Interior.Color = RGB(255, 165, 0)
 ```
 
@@ -898,7 +898,7 @@ H 列の結果を元に、条件にもとづき H 列を塗りつぶします。
 | 101 以上　～　200 未満 | 青 |
 | 200 以上 | 黄 |
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Dim Long_Row     As Long            ' 行位置
@@ -941,13 +941,13 @@ End Sub
 
 シートを新規に追加する場合、次のコードを実行します。
 
-```Visual Basic
+```vba
 Worksheets.Add
 ```
 
 コード全体です。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets.Add                                  ' シートを追加
@@ -981,13 +981,13 @@ End Sub
 
 シート番号を使用し、次のようにシートを指定します。
 
-```Visual Basic
+```vba
 Worksheets(シート番号)
 ```
 
 シート SHeet3 を指定するときは次のようにします。
 
-```Visual Basic
+```vba
 Worksheets(2)
 ```
 
@@ -1010,13 +1010,13 @@ Worksheets(2)
 
 シート名を指定して次のようにシートを指定します。
 
-```Visual Basic
+```vba
 Worksheets(シート名)
 ```
 
 シート名が ボタン の場合、次のように指定します。
 
-```Visual Basic
+```vba
 Worksheets("ボタン")
 ```
 
@@ -1026,13 +1026,13 @@ Worksheets("ボタン")
 
 最後（末尾）のシートの次に新規にシートを追加する場合、次のコードを実行します。
 
-```Visual Basic
+```vba
 Worksheets.Add after:=Worksheets(Worksheets.Count)
 ```
 
 `Worksheets.Add` に続けて、どのシートの後（ after ）にシートを追加するのかを指定します。「どのシート」の部分が `Worksheets(Worksheets.count)` です。`Worksheets.Count` に現在のシート数が格納されているので、`Worksheets(Worksheets.Count)` は最後のシートを指します（シート番号によるシートの指定）。したがって `Worksheets.Add after:=Worksheets(Worksheets.Count)` は、最後のシートの後にシートを追加します。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets.Add after:=Worksheets(Worksheets.Count)      ' 最後のシートの次にシートを追加する
@@ -1044,13 +1044,13 @@ End Sub
 
 最初（先頭）のシートの前に新規にシートを追加する場合、次のコードを実行します。
 
-```Visual Basic
+```vba
 Worksheets.Add before:=Worksheets(1)
 ```
 
 `Worksheets.Add` に続けて、どのシートの前（ Before ）にシートを追加するのかを指定します。「どのシート」の部分が `Worksheets(1)` です。シート番号 : 1 （先頭のシート）を指定しています。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets.Add before:=Worksheets(1)        ' 先頭にシートを追加する
@@ -1069,21 +1069,21 @@ End Sub
 
 #### 基準のシートの前にシートを追加
 
-```Visual Basic
+```vba
 Worksheets.Add before:=Worksheets(シート名)
 ```
 
-```Visual Basic
+```vba
 Worksheets.Add before:=Worksheets(シート番号)
 ```
 
 #### 基準のシートの後にシートを追加
 
-```Visual Basic
+```vba
 Worksheets.Add after:=Worksheets(シート名)
 ```
 
-```Visual Basic
+```vba
 Worksheets.Add after:=Worksheets(シート番号)
 ```
 
@@ -1094,14 +1094,14 @@ Worksheets.Add after:=Worksheets(シート番号)
 1. シートを追加する
 2. 追加したシートに名前を設定する
 
-```Visual Basic
+```vba
 Worksheets.add
 Activesheet.Name = "シート名"
 ```
 
 使用例です。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets.Add after:=Worksheets(Worksheets.Count)      ' 末尾にシートを追加
@@ -1122,11 +1122,11 @@ End Sub
 
 コマンドボタンなどのオブジェクトと同一シート上のセルの操作ではシート（ワークシート）の指定は不要です。シート間でセルの値をコピーしたり、他のシートのセルの値を参照したりするときにシートの指定は必須です。シートの指定を含めたセルの指定方法は次のとおりです。
 
-```Visual Basic
+```vba
 Worksheets(シート名).Cells(行位置 , カラム位置)
 ```
 
-```Visual Basic
+```vba
 Worksheets(シート名).Range(セル位置)
 ```
 
@@ -1136,7 +1136,7 @@ Worksheets(シート名).Range(セル位置)
 
 シート間で書式を含めたセルをコピーする場合、次のように指定します。 `Range` で指定するセル位置は範囲指定も可能です。
 
-```Visual Basic
+```vba
 Worksheets(コピー元のシート名).Range(コピー元のセル位置).Copy Worksheets(コピー先のシート名).Range(コピー先のセル位置)
 ```
 
@@ -1148,7 +1148,7 @@ Worksheets(コピー元のシート名).Range(コピー元のセル位置).Copy 
 
 VBA のコードです。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets("元").Range("A1").Copy Worksheets("先").Range("B2")      ' シート間でセルの値をコピー
@@ -1172,7 +1172,7 @@ End Sub
 
 シート「元」のセル A1 ～ A3 をシート「先」のセル B1 ～ B3 にコピーします。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets("元").Range("A1:A3").Copy Worksheets("先").Range("B1:B3")      ' シート間でセルの値をコピー
@@ -1186,7 +1186,7 @@ End Sub
 
 コピー部分のコードは次のように記述しても同じ結果になります。
 
-```Visual Basic
+```vba
 Worksheets("元").Range("A1", "A3").Copy Worksheets("先").Range("B1", "B3")
 ```
 
@@ -1194,7 +1194,7 @@ Worksheets("元").Range("A1", "A3").Copy Worksheets("先").Range("B1", "B3")
 
 シート間でセルの中の値だけをコピーする場合、次のように指定します。 `Range` で指定するセル位置は範囲指定も可能です。
 
-```Visual Basic
+```vba
 Worksheets(コピー先のシート名).Range(コピー先のセル位置).Value = Worksheets(コピー元のシート名).Range(コピー元のセル位置).Value
 ```
 
@@ -1206,7 +1206,7 @@ Worksheets(コピー先のシート名).Range(コピー先のセル位置).Value
 
 VBA のコードです。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets("先").Range("B2").Value = Worksheets("元").Range("A1").Value     ' シート間でセルの値をコピー
@@ -1230,7 +1230,7 @@ End Sub
 
 シート「元」のセル A1 ～ A3 の値をシート「先」のセル B1 ～ B3 にコピーします。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     Worksheets("先").Range("B1:B3").Value = Worksheets("元").Range("A1:A3").Value     ' シート間でセルの値をコピー
@@ -1244,7 +1244,7 @@ End Sub
 
 コピー部分のコードは次のように記述しても同じ結果になります。
 
-```Visual Basic
+```vba
 Worksheets("先").Range("B1", "B3").Value = Worksheets("元").Range("A1", "A3").Value
 ```
 
@@ -1256,7 +1256,7 @@ Worksheets("先").Range("B1", "B3").Value = Worksheets("元").Range("A1", "A3").
 
 メッセージボックスを表示させるには次のように指定します。
 
-```Visual Basic
+```vba
 MsgBox 表示したい内容
 ```
 
@@ -1268,7 +1268,7 @@ MsgBox 表示したい内容
 
 上記の例のコードです。文字列を指定し、メッセージボックスを表示しました。
 
-```Visual Basic
+```vba
 Private Sub CommandButton1_Click()
 
     MsgBox "テストです。"
