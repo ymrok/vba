@@ -2,14 +2,16 @@
 
 ## 型
 
-| 型 | 入れることができる値 |
-| :---: | :--- |
-| Long | 桁数の多い整数 |
-| Double | 桁数の多い実数 |
-| String | 長さが 0 以上の文字列 |
-| Boolean | True または False |
-| Worksheet | ワークシート |
-| Range | レンジ（セルの範囲） |
+### Boolean 型とオブジェクト型
+
+| 型 | 入れることができる値 | メモ |
+| :---: | :--- | :---: |
+| Long | 桁数の多い整数 | 1 日目の内容を参照ください |
+| Double | 桁数の多い実数 | 1 日目の内容を参照ください |
+| String | 長さが 0 以上の文字列 | 1 日目の内容を参照ください |
+| Boolean | True または False | |
+| Worksheet | ワークシート | |
+| Range | レンジ（セルの範囲） | |
 
 - Boolean 型  
    `True` または `False` のどちらかの値だけを格納する
@@ -18,17 +20,68 @@
 - Range 型  
  `Range(セル位置)` で指定するセルの範囲（単一のセル、範囲指定したセル）を格納する
 
-※ **Worksheet 型** と **Range 型** をまとめて **オブジェクト型** と呼びます。
+### オブジェクト型
 
-宣言の例です。
+**Worksheet 型** と **Range 型** をまとめて **オブジェクト型** と呼びます。
+
+Worksheet 型の代入文です。
+
+```vb
+Set Worksheet 型の変数 = Worksheets(シート番号)
+```
+
+```vb
+Set Worksheet 型の変数 = Worksheets(シート名)
+```
+
+Range 型の代入文です。
+
+```vb
+Set Range 型の変数 = Range(セル位置)
+```
+
+```vb
+Set Range 型の変数 = Range(開始セル位置:終了セル位置)
+```
+
+```vb
+Set Range 型の変数 = Range(開始セル位置, 終了セル位置)
+```
+
+オブジェクト型の使用例です。
 
 ```vb
 Private Sub CommandButton1_Click()
     
-    Dim Bool_Flag       As Boolean          ' シート検索結果　→　True:シートあり　／　False:シートなし
-    Dim WS_Sheet        As Worksheet        ' 取り出したワークシート
+    Dim WS_Sheet    As Worksheet                    ' シートを保存する変数
+    Dim Rng_Range   As Range                        ' セルの範囲を保存する変数
+    
+    ' シート「データ」のセル A1 ～ E1 を黄色で塗りつぶす
+    Set WS_Sheet = Worksheets("データ")             ' シートを保存
+    Set Rng_Range = WS_Sheet.Range("A1", "E1")      ' レンジを保存
+    Rng_Range.Interior.Color = vbYellow             ' 指定範囲を塗りつぶし
     
 End Sub
+```
+
+実行前のシート「データ」の状態です。何も登録されていません。
+
+![実行前](img/2023-09-05_09h09_55.png)
+
+実行後のシート「データ」の状態です。セル A1 ～ E1 を黄色で塗りつぶしました。
+
+![実行後](img/2023-09-05_09h20_35.png)
+
+```vb
+    Set WS_Sheet = Worksheets("データ")             ' シートを保存
+    Set Rng_Range = WS_Sheet.Range("A1", "E1")      ' レンジを保存
+    Rng_Range.Interior.Color = vbYellow             ' 指定範囲を塗りつぶし
+```
+
+上記のコードは下記のコードと同じ意味です。
+
+```vb
+    Worksheets("データ").Range("A1", "E1").Interior.Color = vbYellow  ' 指定範囲を塗りつぶし
 ```
 
 ## For Each ･･･ Next
