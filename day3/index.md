@@ -4,7 +4,7 @@
 
 ### 色コードを使用する
 
-セル内の文字を色コードで着色します。
+セル内の値を色コードで着色します。
 
 | 色コード | 文字の色 |
 | :---: | :---: |
@@ -17,7 +17,7 @@
 | vbCyan | シアン |
 | vbWhite | 白 |
 
-セルは範囲指定も可能です。
+セル位置は範囲指定も可能です。
 
 ```vb
 Range(セル位置).Font.Color = 色コード
@@ -46,12 +46,12 @@ End Sub
 
 ### RGB コードで指定した色を付ける
 
-セル内の文字を RGB で表現した値で着色します。各色は 0 ～ 255 までのいずれかの値を取ります。色のサンプルは下記のようなサイトでご確認ください。
+セル内の値を RGB で表現した値で着色します。各色は 0 ～ 255 までのいずれかの値を取ります。色のサンプルは下記のようなサイトでご確認ください。
 
-現色大辞典  
+原色大辞典  
 <https://www.colordic.org/>
 
-セル位置は範囲しても可能です。
+セル位置は範囲指定も可能です。
 
 ```vb
 Range(セル位置).Font.Color = RGB(赤, 緑, 青)
@@ -84,7 +84,7 @@ End Sub
 
 #### LineStyle で指定
 
-LinsStyele で指定する場合、線の太さは指定できません。
+LineStyele で指定する場合、線の太さは指定できません。
 
 | 線の種類 | 引かれる線 |
 | :--- | :--- |
@@ -107,6 +107,8 @@ LinsStyele で指定する場合、線の太さは指定できません。
 
 ### 指定したセルの範囲の外枠に罫線を引く
 
+セル位置は範囲指定も可能です。
+
 ```vb
 Range(セル位置).BorderAround LineStyle := 線の種類
 ```
@@ -115,7 +117,9 @@ Range(セル位置).BorderAround LineStyle := 線の種類
 Range(セル位置).BorderAround Weight := 線の種類
 ```
 
-### 指定したセルの範囲内に格子の罫線を引く
+### 指定したセルの範囲内に格子状の罫線を引く
+
+セル位置は範囲指定も可能です。
 
 ```vb
 Range(セル位置).Borders.LineStyle = 線の種類
@@ -164,7 +168,7 @@ End Sub
 Private Sub CommandButton1_Click()
 
     ' 罫線を引く
-    .Borders.LineStyle = xlContinuous     ' 実線で格子
+    Worksheets("データ").Range("A1", "B7").Borders.LineStyle = xlContinuous     ' 実線で格子
     Worksheets("データ").Range("A1", "B7").BorderAround Weight:=xlThick         ' 外枠は太枠
 
 End Sub
@@ -182,7 +186,7 @@ End With
 
 `With` ･･･ `End With` で囲まれた VBA のコードは `With` の適用範囲がわかるように（明示）するためインデント（字下げ）して記述します。
 
-上述のコードを `With` で書き直したコードです。
+上述のコードを `With` を使用して書き直したコードです。
 
 ```vb
 Private Sub CommandButton1_Click()
@@ -198,7 +202,7 @@ End Sub
 
 `With` ･･･ `End With` でくくられた VBA コードで、先頭が `.` で始まるコードだけに `With` の右横に記述したオブジェクト（上記の例では `Worksheets("データ").Range("A1", "B7")` ）が自動的に補われて実行します。
 
-`With` の右横にオブジェクト型の値を定義するため、次のように記述できます。
+`With` の右横はオブジェクト型の値を定義するので `Range` 型の変数を使用して次のように記述できます。
 
 ```vb
 Private Sub CommandButton1_Click()
@@ -223,13 +227,13 @@ End Sub
 Range(基準になるセル位置).CurrentRegion
 ```
 
-`Range` でセルの範囲指定を行うときに `CurrentRegion` を使用すると、範囲指定が柔軟に行えることがあります。 `CurrentRegion` は基準となるセルを指定し、そのセルに隣接していて　かつ　値が入っているセルをひとまとめで指定できます。
+`Range` でセルの範囲指定を行うときに `CurrentRegion` を使用すると、範囲指定が柔軟に行えることがあります。 `CurrentRegion` は基準となるセルを指定し、そのセルに隣接していて　かつ　値が入っているセルをひとまとめにして指定できます。
 
 ![実行前](img/2023-09-05_20h33_59.png)
 
 基準セルを A1 にして `CurrentRegion` を使用すると、黄色で塗りつぶした範囲が対象になります。
 
-![黄色](img/2023-09-05_21h25_33.png)
+![黄色](img/2023-09-06_19h43_36.png)
 
 先程の罫線を引くコードを `CurrentRegion` を使用して書き直しました。
 
