@@ -286,7 +286,7 @@ End Sub
 
 ![実行後](img/2023-09-08_21h26_06.png)
 
-参考までにセルにワークシートを埋め込まず、計算結果を設定するコードです。
+同じことをセルにワークシートを埋め込まず、計算結果を設定するよう書き直したコードです。
 
 ```vb
 Private Sub CommandButton1_Click()
@@ -316,4 +316,117 @@ End Sub
 
 ## VBA 関数 InStr
 
-## VBA 関数 Left / Right / Mid
+キーワードをもとに文字列内を検索し、キーワードと一致する部分の位置を戻り値として返します。複数の箇所が一致する場合、最初に一致した場所が戻り値になります。一致しない場合の戻り値は 0 です。
+
+例えば、キーワードが "and" 、文字列が "United Kingdom of Great Britain and Northern Ireland" の場合、戻り値は 33 になります。
+
+```vb
+InStr( 検索開始位置, 検索対象の文字列, キーワード, 検索モード)
+```
+
+- 検索開始位置　・・・　省略可能
+  - 文字列をキーワードで検索を開始する位置
+- 検索対象の文字列
+  - キーワードで検索される文字列
+- キーワード
+  - 検索対象の文字列内を検索するキーワード
+- 検索モード　・・・　省略可能
+  - 検索時の全角・半角、大文字・小文字、ひらがな・カタカナを区別するか、無視するかを指定する
+  - 検索モードを指定した場合、検索開始位置も指定しなければならない
+   | 検索モード | 全角・半角、大文字・小文字、ひらがな・カタカナ | 備考 |
+   | :---: | :---: | :---: |
+   | vbBinaryCompare | 区別する | デフォルト |
+   | vbTextCompare | 区別しない |
+
+文字列を先頭から検索し、大文字・小文字などの区別をする事が多いので、（場合によりますが）「検索開始位置」と「検索モード」は省略して問題ありません。
+
+使用例です。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Data         As Worksheet        ' シート「データ」用
+    Dim LONG_Row        As Long             ' 行番号
+    Dim STR_Mojiretsu   As String           ' 検索される文字列
+    Dim STR_KeyWord     As String           ' キーワード
+    Dim LONG_Start      As Long             ' 検索開始位置
+    
+    Set WS_Data = Worksheets("データ")
+    
+    With WS_Data
+    
+        For LONG_Row = 2 To 10 Step 1
+        
+            STR_Mojiretsu = .Cells(LONG_Row, 1).Value
+            STR_KeyWord = .Cells(LONG_Row, 2).Value
+        
+            If .Cells(LONG_Row, 4).Value = "指定しない" Then
+                If .Cells(LONG_Row, 3).Value = "指定しない" Then
+                    .Cells(LONG_Row, 5).Value = InStr(STR_Mojiretsu, STR_KeyWord)
+                Else
+                    LONG_Start = .Cells(LONG_Row, 3).Value
+                    .Cells(LONG_Row, 5).Value = InStr(LONG_Start, STR_Mojiretsu, STR_KeyWord)
+                End If
+            Else
+                LONG_Start = .Cells(LONG_Row, 3).Value
+                If .Cells(LONG_Row, 4) = "vbBinaryCompare" Then
+                    .Cells(LONG_Row, 5).Value = InStr(LONG_Start, STR_Mojiretsu, STR_KeyWord, vbBinaryCompare)
+                Else
+                    .Cells(LONG_Row, 5).Value = InStr(LONG_Start, STR_Mojiretsu, STR_KeyWord, vbTextCompare)
+                End If
+            End If
+        Next LONG_Row
+    
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-09_09h49_48.png)
+
+![実行前](img/2023-09-09_09h50_03.png)
+
+実行後の状態です。E 列にそれぞれの `InStr` 関数の戻り値が設定されました。
+
+![実行後](img/2023-09-09_09h50_18.png)
+
+`InStr` 関数は検索する文字列内にキーワードが含まれている場合、戻り値は 0 より大きくなります（ 1 以上になります）。これを利用して、セルの中に特定のキーワードが含まれるセルだけを処理対象にできます。次のコードはキーワード "Kingdom" が含まれるセルを黄色に塗りつぶします。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Data         As Worksheet        ' シート「データ」用
+    Dim RANGE_Cell      As Range            ' 処理対象のセル
+    Dim LONG_Row        As Long             ' 行番号
+    Dim STR_KeyWord     As String           ' キーワード
+    
+    STR_KeyWord = "Kingdom"
+    Set WS_Data = Worksheets("データ")
+    
+    With WS_Data
+    
+        For LONG_Row = 1 To 11 Step 1
+        
+            Set RANGE_Cell = .Cells(LONG_Row, 1)
+            If InStr(RANGE_Cell.Value, STR_KeyWord) > 0 Then
+                RANGE_Cell.Interior.Color = vbYellow
+            End If
+        
+        Next LONG_Row
+    
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-09_09h49_48.png)
+
+![実行前](img/2023-09-09_10h13_13.png)
+
+実行後の状態です。 "kingdom" を含むセルを黄色で塗りつぶしました。
+
+![実行前](img/2023-09-09_10h13_27.png)
