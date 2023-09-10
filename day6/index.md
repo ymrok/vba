@@ -739,8 +739,11 @@ Private Sub CommandButton1_Click()
             .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
-            With .SeriesCollection(1).Format.Fill
-                .ForeColor.RGB = RGB(169, 209, 142)         ' 棒グラフの塗りつぶしの色
+            With .SeriesCollection(1)
+                .Name = WS_Data.Range("C1").Value           ' 系列名
+                With .Format.Fill
+                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                End With
             End With
             
             ' 2 系列目のグラフ
