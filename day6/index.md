@@ -38,11 +38,11 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→C列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
                 End With
@@ -53,8 +53,8 @@ Private Sub CommandButton1_Click()
             With .SeriesCollection(2)                       ' 2 系列め
             
                 .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1")                 ' 系列名
-                .Values = WS_Data.Range("D2:D11")           ' データの範囲
+                .Name = WS_Data.Range("D1").Value           ' 系列名
+                .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
                 .ChartType = xlLine                         ' データの種類：折れ線
                 
                 With .Format.Line
@@ -116,11 +116,11 @@ Private Sub CommandButton1_Click()
     
         With .Chart
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,B1:B11")   ' データの範囲：見出し→A列、データ→B列
+            .SetSourceData WS_Data.Range("A1:A11,B1:B11")   ' データの範囲：横軸→A列、データ→B列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
             
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("B1")                 ' 系列名
+                .Name = WS_Data.Range("B1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(0, 128, 0)         ' 棒グラフの塗りつぶしの色
                 End With
@@ -131,8 +131,8 @@ Private Sub CommandButton1_Click()
             With .SeriesCollection(2)                       ' 2 系列め
             
                 .AxisGroup = 1                              ' 第 1 軸
-                .Name = WS_Data.Range("C1")                 ' 系列名
-                .Values = WS_Data.Range("C2:C11")           ' データの範囲
+                .Name = WS_Data.Range("C1").Value           ' 系列名
+                .Values = WS_Data.Range("C2:C11").Value     ' データの範囲
                 .ChartType = xlColumnClustered              ' データの種類：棒グラフ
                 
                 With .Format.Fill
@@ -577,7 +577,7 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→B列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→B列
 ```
 
 データの範囲が設定されるとすぐにグラフが描画されます。
@@ -616,7 +616,7 @@ Private Sub CommandButton1_Click()
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
                 End With
@@ -629,7 +629,7 @@ Private Sub CommandButton1_Click()
             .ChartType = xlLine                             ' データの種類：折れ線
             
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.line
                     .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
                     .Weight = 2                             ' 折れ線の太さ
@@ -673,11 +673,11 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→C列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
                 End With
@@ -736,7 +736,7 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→C列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1).Format.Fill
@@ -784,7 +784,7 @@ End Sub
             With .SeriesCollection(2)                       ' 2 系列め
             
                 .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1")                 ' 系列名
+                .Name = WS_Data.Range("D1").Value           ' 系列名
                 .Values = WS_Data.Range("D2:D11")           ' データの範囲
                 .ChartType = xlLine                         ' データの種類：折れ線
                 
@@ -834,11 +834,11 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→C列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
                 End With
@@ -849,7 +849,7 @@ Private Sub CommandButton1_Click()
             With .SeriesCollection(2)                       ' 2 系列め
             
                 .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1")                 ' 系列名
+                .Name = WS_Data.Range("D1").Value           ' 系列名
                 .Values = WS_Data.Range("D2:D11")           ' データの範囲
                 .ChartType = xlLine                         ' データの種類：折れ線
                 
@@ -1026,11 +1026,11 @@ Private Sub CommandButton1_Click()
         With .Chart
         
             ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：見出し→A列、データ→C列
+            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
             .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
 
             With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1")                 ' 系列名
+                .Name = WS_Data.Range("C1").Value           ' 系列名
                 With .Format.Fill
                     .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
                 End With
@@ -1041,7 +1041,7 @@ Private Sub CommandButton1_Click()
             With .SeriesCollection(2)                       ' 2 系列め
             
                 .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1")                 ' 系列名
+                .Name = WS_Data.Range("D1").Value           ' 系列名
                 .Values = WS_Data.Range("D2:D11")           ' データの範囲
                 .ChartType = xlLine                         ' データの種類：折れ線
                 
