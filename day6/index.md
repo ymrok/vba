@@ -2,7 +2,100 @@
 
 ## グラフを描画するサンプル
 
-### コード
+### With ･･･ End With を使用しないコード
+
+```vb
+Private Sub CommandButton1_Click()
+
+    
+    '
+    ' 1 つめのグラフの作成
+    '
+    
+    ' グラフの表示領域作成
+    Worksheets("グラフ").Shapes.AddChart                                                                                  ' グラフの表示領域を追加 = グラフの土台を作成
+    
+    ' グラフの表示場所
+    Worksheets("グラフ").ChartObjects(1).Width = Worksheets("グラフ").Range("A1:J15").Width                               ' グラフの横幅
+    Worksheets("グラフ").ChartObjects(1).Height = Worksheets("グラフ").Range("A1:J15").Height                             ' グラフの高さ
+    Worksheets("グラフ").ChartObjects(1).Top = Worksheets("グラフ").Range("A1:J15").Top                                   ' グラフのトップ位置
+    Worksheets("グラフ").ChartObjects(1).Left = Worksheets("グラフ").Range("A1:J15").Left                                 ' グラフの左側の位置
+    
+    ' 1 系列目のグラフ
+    Worksheets("グラフ").ChartObjects(1).Chart.SetSourceData Worksheets("データ").Range("A1:A11,C1:C11")                  ' データの範囲：横軸→A列、データ→C列
+    Worksheets("グラフ").ChartObjects(1).Chart.ChartType = xlColumnClustered                                              ' データの種類：棒グラフ
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(1).Name = Worksheets("データ").Range("C1").Value          ' 系列名
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(1).Format.Fill.ForeColor.RGB = RGB(169, 209, 142)         ' 棒グラフの塗りつぶしの色
+    
+    ' 2 系列目のグラフ
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection.NewSeries                                                 ' 新しいグラフの系列を追加　→　2 系列目
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).AxisGroup = 2                                          ' 第 2 軸
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Name = Worksheets("データ").Range("D1").Value          ' 系列名
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Values = Worksheets("データ").Range("D2:D11").Value    ' データの範囲
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).ChartType = xlLine                                     ' データの種類：折れ線
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.ForeColor.RGB = RGB(192, 0, 0)             ' 折れ線の色
+    Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.Weight = 2                                 ' 折れ線の太さ
+    
+    ' 軸の書式設定
+    Worksheets("グラフ").ChartObjects(1).Chart.HasTitle = True                                                            ' タイトル表示 On
+    Worksheets("グラフ").ChartObjects(1).Chart.ChartTitle.Text = "インストール進捗実績表"                                 ' タイトル
+    Worksheets("グラフ").ChartObjects(1).Chart.ChartTitle.Format.TextFrame2.TextRange.Font.Size = 16                      ' タイトルのフォントサイズ
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlCategory, 1).TickLabels.NumberFormatLocal = "m/d"                   ' 書式
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlCategory, 1).HasTitle = True                                        ' ラベル表示 On
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlCategory, 1).AxisTitle.Text = "インストール日"                      ' ラベル
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 1).TickLabels.NumberFormatLocal = "#,##0"                    ' 書式
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 1).HasTitle = True                                           ' ラベル表示 On
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 1).AxisTitle.Text = "延べインストール台数(台)"               ' ラベル
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 1).MinimumScale = 0                                          ' 軸の値の最小値
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 1).MaximumScale = 50                                         ' 軸の値の最大値
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).TickLabels.NumberFormatLocal = "0%"                       ' 書式
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).HasTitle = True                                           ' ラベル表示 On
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).AxisTitle.Text = "進捗率(%)"                              ' ラベル
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).MinimumScale = 0                                          ' 軸の値の最小値
+    Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).MaximumScale = 1                                          ' 軸の値の最大値
+    
+    ' グラフの表示領域作成
+    Worksheets("グラフ").Shapes.AddChart                                                                                  ' グラフの表示領域を追加 = グラフの土台を作成
+    
+    ' グラフの表示場所
+    Set RNG_Graph = Worksheets("グラフ").Range("A17:J32")                                                                 ' このセルの範囲にグラフを表示する
+    Worksheets("グラフ").ChartObjects(2).Width = Worksheets("グラフ").Range("A17:J32").Width                              ' グラフの横幅
+    Worksheets("グラフ").ChartObjects(2).Height = Worksheets("グラフ").Range("A17:J32").Height                            ' グラフの高さ
+    Worksheets("グラフ").ChartObjects(2).Top = Worksheets("グラフ").Range("A17:J32").Top                                  ' グラフのトップ位置
+    Worksheets("グラフ").ChartObjects(2).Left = Worksheets("グラフ").Range("A17:J32").Left                                ' グラフの左側の位置
+    
+    ' 1 系列目のグラフ
+    Worksheets("グラフ").ChartObjects(2).Chart.SetSourceData Worksheets("データ").Range("A1:A11,B1:B11")                  ' データの範囲：横軸→A列、データ→B列
+    Worksheets("グラフ").ChartObjects(2).Chart.ChartType = xlColumnClustered                                              ' データの種類：棒グラフ
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(1).Name = Worksheets("データ").Range("B1").Value          ' 系列名
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(1).Format.Fill.ForeColor.RGB = RGB(0, 128, 0)             ' 棒グラフの塗りつぶしの色
+    
+    ' 2 系列目のグラフ
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection.NewSeries                                                 ' 新しいグラフの系列を追加　→　2 系列目
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).AxisGroup = 1                                          ' 第 1 軸
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Name = Worksheets("データ").Range("C1").Value          ' 系列名
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Values = Worksheets("データ").Range("C2:C11").Value    ' データの範囲
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).ChartType = xlColumnClustered                          ' データの種類：棒グラフ
+        
+    Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Format.Fill.ForeColor.RGB = RGB(169, 209, 142)         ' 棒グラフの塗りつぶしの色
+    
+    ' 軸の書式設定
+    Worksheets("グラフ").ChartObjects(2).Chart.HasTitle = True                                                            ' タイトル表示 On
+    Worksheets("グラフ").ChartObjects(2).Chart.ChartTitle.Text = "インストール台数実績表"                                 ' タイトル
+    Worksheets("グラフ").ChartObjects(2).Chart.ChartTitle.Format.TextFrame2.TextRange.Font.Size = 16                      ' タイトルのフォントサイズ
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlCategory, 1).TickLabels.NumberFormatLocal = "m/d"                   ' 書式
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlCategory, 1).HasTitle = True                                        ' ラベル表示 On
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlCategory, 1).AxisTitle.Text = "インストール日"                      ' ラベル
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlValue, 1).TickLabels.NumberFormatLocal = "#,##0"                    ' 書式
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlValue, 1).HasTitle = True                                           ' ラベル表示 On
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlValue, 1).AxisTitle.Text = "インストール台数(台)"                   ' ラベル
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlValue, 1).MinimumScale = 0                                          ' 軸の値の最小値
+    Worksheets("グラフ").ChartObjects(2).Chart.Axes(xlValue, 1).MaximumScale = 50                                         ' 軸の値の最大値
+ 
+End Sub
+```
+
+### With ･･･ End With を使用したコード
 
 ```vb
 Private Sub CommandButton1_Click()
@@ -169,7 +262,7 @@ Private Sub CommandButton1_Click()
 End Sub
 ```
 
-### 実行前の状態
+### 実行前の状態（With ･･･ End With を使用しない／したコード 共通）
 
 ![実行前](img/2023-09-09_10h31_08.png)
 
@@ -181,7 +274,7 @@ End Sub
 
 ![描画前](img/2023-09-09_10h32_49.png)
 
-### 実行後の状態
+### 実行後の状態（With ･･･ End With を使用しない／したコード 共通）
 
 実行後の状態です。 2 つのグラフを描画しました。
 
@@ -197,7 +290,7 @@ End Sub
 
 ### コードの書き方
 
-グラフを描画するにあたってコードの 1 つ 1 つに多数のプロパティが必要です。これらのプロパティをすべて記述すると記述量が増え、効率が悪く、ミスをしやすくなります。これらのマイナス要因を避けるため `with` ･･･ `End With` で用途ごとにプロパティをまとめて記述します。次のコードはグラフを描画するための基本的な構造です。
+「`With` ･･･ `End With` を使用しないコード」でわかるとおり、グラフを描画するにあたってコードの 1 つ 1 つに多数のプロパティが必要です。これらのプロパティをすべて記述すると記述量が増え、効率が悪く、ミスをしやすくなります。これらのマイナス要因を避けるため `with` ･･･ `End With` で用途ごとにプロパティをまとめて記述します。次のコードはグラフを描画するための基本的な構造です。
 
 ```vb
 Private Sub CommandButton1_Click()
