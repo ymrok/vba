@@ -701,7 +701,7 @@ Private Sub CommandButton1_Click()
 
 系列名はグラフの右横の凡例部分の名前です。今回はシート「データ」のセル C1 の値を使用しました。
 
-![系列名](img/2023-09-09_14h03_45.png)
+![系列名](img/2023-09-11_16h35_26.png)
 
 棒グラフの場合です。
 
@@ -855,17 +855,17 @@ End Sub
 2 系列目のグラフのコードを書く前に決めることです。
 
 - 縦軸は第 1 軸（左側の縦軸）、第 2 軸（右側の縦軸）を使用するのか？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).AxisGroup
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).AxisGroup`
 - 系列名は？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Name
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Name`
 - データの範囲は？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Values
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Values`
 - グラフの集合縦棒か、折れ線か？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).ChartType
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).ChartType`
 - グラフの色は？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.ForeColor.RGB
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.ForeColor.RGB`
 - 折れ線の場合、線の太さは？
-  - Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.Weight
+  - `Worksheets("グラフ").ChartObjects(1).Chart.SeriesCollection(2).Format.Line.Weight`
 
 今回は次のようにします。
 
