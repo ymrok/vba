@@ -419,11 +419,11 @@ End Sub
 
 - オレンジ
   - `Worksheets("グラフ")`　→　実際は Worksheet 型の変数 `WS_Graph`
-- 青
+- 青　：　オレンジのコード　＋　`ChartObjects(1)`
   - `WS_Graph.ChartObject(1)`
-- 緑
+- 緑　：　青のコード　＋　`.Chart`
   - `WS_Graph.ChartObject(1).Chart`
-- グレー
+- グレー　：　緑のコード　＋　それぞれの `With` の右隣の項目
   - 場所により異なります。上から順に次のとおりです。
     - `WS_Graph.ChartObject(1).Chart.SeriesCollection(2)`
     - `WS_Graph.ChartObject(1).Chart.SeriesCollection(3)`
