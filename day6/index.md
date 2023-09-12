@@ -54,11 +54,14 @@ Private Sub CommandButton1_Click()
     Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).MinimumScale = 0                                          ' 軸の値の最小値
     Worksheets("グラフ").ChartObjects(1).Chart.Axes(xlValue, 2).MaximumScale = 1                                          ' 軸の値の最大値
     
+    '
+    ' 2 つめのグラフの作成
+    '
+
     ' グラフの表示領域作成
     Worksheets("グラフ").Shapes.AddChart                                                                                  ' グラフの表示領域を追加 = グラフの土台を作成
     
     ' グラフの表示場所
-    Set RNG_Graph = Worksheets("グラフ").Range("A17:J32")                                                                 ' このセルの範囲にグラフを表示する
     Worksheets("グラフ").ChartObjects(2).Width = Worksheets("グラフ").Range("A17:J32").Width                              ' グラフの横幅
     Worksheets("グラフ").ChartObjects(2).Height = Worksheets("グラフ").Range("A17:J32").Height                            ' グラフの高さ
     Worksheets("グラフ").ChartObjects(2).Top = Worksheets("グラフ").Range("A17:J32").Top                                  ' グラフのトップ位置
@@ -76,7 +79,6 @@ Private Sub CommandButton1_Click()
     Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Name = Worksheets("データ").Range("C1").Value          ' 系列名
     Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Values = Worksheets("データ").Range("C2:C11").Value    ' データの範囲
     Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).ChartType = xlColumnClustered                          ' データの種類：棒グラフ
-        
     Worksheets("グラフ").ChartObjects(2).Chart.SeriesCollection(2).Format.Fill.ForeColor.RGB = RGB(169, 209, 142)         ' 棒グラフの塗りつぶしの色
     
     ' 軸の書式設定
@@ -102,7 +104,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -114,149 +115,150 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+            
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
                 End With
-            End With
-            
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1").Value           ' 系列名
-                .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
-                .ChartType = xlLine                         ' データの種類：折れ線
                 
-                With .Format.Line
-                    .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
-                    .Weight = 2                             ' 折れ線の太さ
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
+                
+                    .AxisGroup = 2                              ' 第 2 軸
+                    .Name = WS_Data.Range("D1").Value           ' 系列名
+                    .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
+                    .ChartType = xlLine                         ' データの種類：折れ線
+                    
+                    With .Format.Line
+                        .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
+                        .Weight = 2                             ' 折れ線の太さ
+                    End With
+                
+                End With
+                
+                ' 軸の書式設定
+                .HasTitle = True                                ' タイトル表示 On
+                With .ChartTitle
+                    .Text = "インストール進捗実績表"            ' タイトル
+                    .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
+                End With
+                
+                With .Axes(xlCategory, 1)                       ' 横軸
+                    .TickLabels.NumberFormatLocal = "m/d"           ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "インストール日"              ' ラベル
+                End With
+                
+                With .Axes(xlValue, 1)                          ' 縦軸：第1軸
+                    .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 50                              ' 軸の値の最大値
                 End With
             
-            End With
-            
-            ' 軸の書式設定
-            .HasTitle = True                                ' タイトル表示 On
-            With .ChartTitle
-                .Text = "インストール進捗実績表"            ' タイトル
-                .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
-            End With
-            
-            With .Axes(xlCategory, 1)                       ' 横軸
-                .TickLabels.NumberFormatLocal = "m/d"           ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "インストール日"              ' ラベル
-            End With
-            
-            With .Axes(xlValue, 1)                          ' 縦軸：第1軸
-                .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 50                              ' 軸の値の最大値
+                With .Axes(xlValue, 2)                          ' 縦軸：第2軸
+                    .TickLabels.NumberFormatLocal = "0%"            ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "進捗率(%)"                   ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 1                               ' 軸の値の最大値
+                End With
+        
             End With
         
-            With .Axes(xlValue, 2)                          ' 縦軸：第2軸
-                .TickLabels.NumberFormatLocal = "0%"            ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "進捗率(%)"                   ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 1                               ' 軸の値の最大値
-            End With
-    
         End With
-    
     End With
     
     '
     ' 2 つめのグラフの作成
     '
-    
-    ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(2)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A17:J32")           ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
-    
-        With .Chart
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,B1:B11")   ' データの範囲：横軸→A列、データ→B列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-            
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("B1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(0, 128, 0)         ' 棒グラフの塗りつぶしの色
-                End With
-            End With
-            
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                .AxisGroup = 1                              ' 第 1 軸
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                .Values = WS_Data.Range("C2:C11").Value     ' データの範囲
-                .ChartType = xlColumnClustered              ' データの種類：棒グラフ
+    With WS_Graph
+        ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(2)
+        
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A17:J32")           ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        
+            With .Chart
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,B1:B11")   ' データの範囲：横軸→A列、データ→B列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
                 
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("B1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(0, 128, 0)         ' 棒グラフの塗りつぶしの色
+                    End With
+                End With
+                
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
+                
+                    .AxisGroup = 1                              ' 第 1 軸
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    .Values = WS_Data.Range("C2:C11").Value     ' データの範囲
+                    .ChartType = xlColumnClustered              ' データの種類：棒グラフ
+                    
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
+                
                 End With
             
+                ' 軸の書式設定
+                .HasTitle = True                                ' タイトル表示 On
+                With .ChartTitle
+                    .Text = "インストール台数実績表"            ' タイトル
+                    .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
+                End With
+                
+                With .Axes(xlCategory, 1)                       ' 横軸
+                    .TickLabels.NumberFormatLocal = "m/d"           ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "インストール日"              ' ラベル
+                End With
+                
+                With .Axes(xlValue, 1)                          ' 縦軸：第1軸
+                    .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "インストール台数(台)"        ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 50                              ' 軸の値の最大値
+                End With
+        
             End With
         
-            ' 軸の書式設定
-            .HasTitle = True                                ' タイトル表示 On
-            With .ChartTitle
-                .Text = "インストール台数実績表"            ' タイトル
-                .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
-            End With
-            
-            With .Axes(xlCategory, 1)                       ' 横軸
-                .TickLabels.NumberFormatLocal = "m/d"           ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "インストール日"              ' ラベル
-            End With
-            
-            With .Axes(xlValue, 1)                          ' 縦軸：第1軸
-                .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "インストール台数(台)"        ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 50                              ' 軸の値の最大値
-            End With
-    
         End With
-    
+
     End With
 
 End Sub
@@ -295,186 +297,8 @@ End Sub
 ```vb
 Private Sub CommandButton1_Click()
 
-    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
-    
-    '
-    ' 初期処理
-    '
-    Set WS_Graph = Worksheets("グラフ")
-    
-    '
-    ' 1 つめのグラフの作成
-    '
-    
-    ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-
-        グラフの表示サイズ・位置に関するコード
-
-        With .Chart
-        
-            ' 1 系列目のグラフ
-
-            1 系列目のグラフに関するコード
-
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                2 系列目のグラフに関するコード
-            
-            End With
-            
-            ' 3 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(3)                       ' 3 系列め
-            
-                3 系列目のグラフに関するコード
-            
-            End With
-
-            ' 軸の書式設定
-            .HasTitle = True                                ' タイトル表示 On（タイトルを表示するときだけ必要）
-            With .ChartTitle
-
-                タイトルに関するコード
-
-            End With
-            
-            With .Axes(xlCategory, 1)                       ' 横軸
-
-                横軸に関するコード
-
-            End With
-            
-            With .Axes(xlValue, 1)                          ' 縦軸：第1軸
-
-                縦軸：第 1 軸（左側の縦軸）に関するコード
-
-            End With
-        
-            With .Axes(xlValue, 2)                          ' 縦軸：第2軸
-
-                縦軸：第 2 軸（右側の縦軸）に関するコード
-
-            End With
-    
-        End With
-    
-    End With
-    
-    '
-    ' 2 つめのグラフの作成
-    '
-    
-    ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(2)　←　2 つめの ChartObject なのでカッコの中の数字は 2
-    
-    With CHART_Graph
-    
-        2 つめのグラフに関するコード
-        構造は 1 つめのグラフと同じ
-    
-    End With
-
-    
-    '
-    ' 3 つめのグラフの作成
-    '
-    
-    ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(3)　←　3 つめの ChartObject なのでカッコの中の数字は 3
-    
-    With CHART_Graph
-    
-        3 つめのグラフに関するコード
-        構造は 1 つめのグラフと同じ
-    
-    End With
-
-End Sub
-```
-
-## グラフのコード
-
-### 土台（ ChartObjects ）を作成する
-
-`Shapes.AddChart` で土台となる `ChartObjects` を作成します。実際は特定のシート内にグラフを描画することになるので、シートも併せて指定します。
-
-```vb
-Private Sub CommandButton1_Click()
-
-    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-
-    Set WS_Graph = Worksheets("グラフ")
-
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-```
-
-作成した `ChartObjects` は今後あちこちで使用するので `ChartObject` 型のオブジェクト変数 **CHART_Graph** に格納します。 `ChartObject(1)` の `(1)` は 1 つ目の `ChartObjects` を意味します。`Shapes.AddChart` を実行するたびにカッコの中の数字は 2 → 3 → ・・・ と増加します。
-
-```vb
-Private Sub CommandButton1_Click()
-
-    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
-
-    Set WS_Graph = Worksheets("グラフ")
-
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-```
-
-この時点で参照するシートも併せて定義しておくと後々便利です。
-
-```vb
-Private Sub CommandButton1_Click()
-
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
-    
-    '
-    ' 初期処理
-    '
-    Set WS_Data = Worksheets("データ")
-    Set WS_Graph = Worksheets("グラフ")
-    
-    '
-    ' 1 つめのグラフの作成
-    '
-    
-    ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-```
-
-続けて `ChartObjects` の上に必要な情報を積み重ねていきます。すべて `ChartObjects` に含まれるので `With` ･･･ `End With` でくくって定義します。
-
-```vb
-With Worksheets("グラフ").ChartObjects(1)
-
-        ここにグラフの中身のコードを書く
-
-End With
-```
-
-上記でも良いのですが `Worksheets("グラフ").ChartObjectS(1)` は `ChartObject` 型の変数 **CHART_Graph** に格納済みなので、次のように書き換えます。
-
-```vb
-Private Sub CommandButton1_Click()
-
-    Dim WS_Data             As Worksheet                    ' シート「データ」
-    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -486,23 +310,271 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(1)
+        
+            ' グラフの表示場所
 
-        ここにグラフの中身のコードを書く
+            グラフの表示位置・サイズに関するコードを記述
+            
+            With .Chart
+            
+                ' 1 系列目のグラフ
+
+                1 系列目のグラフに関するコードを記述
+
+                
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
+                
+                    2 系列目のグラフに関するコードを記述
+                
+                End With
+                
+                ' 3 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(3)                       ' 3 系列め
+                
+                    3 系列目のグラフに関するコードを記述
+                
+                End With
+                
+                ' 軸の書式設定
+                .HasTitle = True                                ' タイトル表示 On
+                With .ChartTitle
+                    
+                    タイトルに関するコードを記述
+
+                End With
+                
+                With .Axes(xlCategory, 1)                       ' 横軸
+                    
+                    横軸に関するコードを記述
+
+                End With
+                
+                With .Axes(xlValue, 1)                          ' 縦軸：第1軸
+                    
+                    縦軸（第 1 軸）に関するコードを記述
+
+                End With
+            
+                With .Axes(xlValue, 2)                          ' 縦軸：第2軸
+                    
+                    縦軸（第 2 軸）に関するコードを記述
+
+                End With
+        
+            End With
+        
+        End With
+        
+    End With
+    
+    '
+    ' 2 つめのグラフの作成
+    '
+    With WS_Graph
+        ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(2)
+        
+            2 つめのグラフに関するコードを記述
+            構造は 1 つめのグラフと同じ
+
+        End With
+        
+    End With
+
+    
+    '
+    ' 3 つめのグラフの作成
+    '
+    With WS_Graph
+        ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(3)
+        
+            3 つめのグラフに関するコードを記述
+            構造は 1 つめのグラフと同じ
+
+        End With
+        
+    End With
+
+End Sub
+```
+
+`With` ･･･ `End With` の範囲がわかるよう外側からオレンジ、青、緑、グレーで色分けしました。
+
+![色分け](img/2023-09-12_08h45_08.png)
+
+左側からみたとき、色の重なりが多いほど `With` ･･･ `End With` のネスト（多重度）が深いことになります。 `With` ･･･ `End With` で補完されるコードは次のとおりです。
+
+- オレンジ
+  - `Worksheets("グラフ")`　→　実際は Worksheet 型の変数 `WS_Graph`
+- 青
+  - `WS_Graph.ChartObject(1)`
+- 緑
+  - `WS_Graph.ChartObject(1).Chart`
+- グレー
+  - 場所により異なります。上から順に次のとおりです。
+    - `WS_Graph.ChartObject(1).Chart.SeriesCollection(2)`
+    - `WS_Graph.ChartObject(1).Chart.SeriesCollection(3)`
+    - `WS_Graph.ChartObject(1).Chart.ChartTitle`
+    - `WS_Graph.ChartObject(1).Chart.Axes(xlCategory, 1)`
+    - `WS_Graph.ChartObject(1).Chart.Axes(xlValue, 1)`
+    - `WS_Graph.ChartObject(1).Chart.Axes(xlValue, 2)`
+
+例えば
+
+```vb
+.Shapes.AddChart
+```
+
+はオレンジなので
+
+```vb
+WS_Graph.Shapes.AddChart
+```
+
+と記述したのと同じになります。同様に
+
+```vb
+.SeriesCollection.NewSeries
+```
+
+は緑なので
+
+```vb
+WS_Graph.ChartObject(1).Chart.SeriesCollection.NewSeries 
+```
+
+と記述したのと同じになります。このように `With` ･･･ `End With` を使用することで、記述する量を減らし、効率よくコードを書くことができ、コードを目的ごとにまとめることで可読性を向上し、ミスを低減できます。
+
+## グラフのコード
+
+### 土台（ ChartObjects ）を作成する
+
+実際は特定のシート（今回はシート「グラフ」）内にグラフを描画することになります。したがって、グラフに関する全てのコードは特定のシートの中に含まれるよう `With シート名` ･･･ `End With` の間に記述します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
+    
+    '
+    ' 初期処理
+    '
+    Set WS_Graph = Worksheets("グラフ")
+    
+    '
+    ' 1 つめのグラフの作成
+    '
+    With WS_Graph
+
+        グラフに関するコードを記述
 
     End With
 
-End SUb
+End Sub
+```
+
+`Shapes.AddChart` で土台となる `ChartObjects` を作成します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
+    
+    '
+    ' 初期処理
+    '
+    Set WS_Graph = Worksheets("グラフ")
+    
+    '
+    ' 1 つめのグラフの作成
+    '
+    With WS_Graph
+    ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+
+        グラフに関するコードを記述
+
+    End With
+
+End Sub
+```
+
+この時点で参照するシート（シート「データ」）も併せて定義しておくと後々便利です。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Data             As Worksheet                    ' シート「データ」
+    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
+    
+    '
+    ' 初期処理
+    '
+    Set WS_Data = Worksheets("データ")
+    Set WS_Graph = Worksheets("グラフ")
+    
+    '
+    ' 1 つめのグラフの作成
+    '
+    With WS_Graph
+    ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+
+        グラフに関するコードを記述
+
+    End With
+
+End Sub
+```
+
+続けて `ChartObjects` の上に必要な情報を積み重ねていきます。`ChartObject(1)` の `(1)` は 1 つ目の `ChartObjects` を意味します。`Shapes.AddChart` を実行するたびにカッコの中の数字は 1 → 2 → 3 → ・・・ と増加します。すべて `ChartObjects` に含まれるので `With` ･･･ `End With` でくくって定義します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim WS_Data             As Worksheet                    ' シート「データ」
+    Dim WS_Graph            As Worksheet                    ' シート「グラフ」
+    
+    '
+    ' 初期処理
+    '
+    Set WS_Data = Worksheets("データ")
+    Set WS_Graph = Worksheets("グラフ")
+    
+    '
+    ' 1 つめのグラフの作成
+    '
+    With WS_Graph
+    ' グラフの表示領域作成
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(1)
+
+            1 つめのグラフに関するコードを記述
+
+        End With
+
+    End With
+
+End Sub
 ```
 
 ### グラフの表示サイズと位置を設定する
 
-土台を作成した直後の状態です。表示されている四角が `Worksheets("グラフ").ChartObjects(1)` = **CHART_Graph** です。グラフもなにもありません。表示サイズや位置も上記の「実行後の状態」と異なります。
+土台を作成した直後の状態です。表示されている四角が `Worksheets("グラフ").ChartObjects(1)` です。グラフもなにもありません。表示サイズや位置も上記の「実行後の状態」と異なります。
 
 ![直後の土台](img/2023-09-09_11h25_58.png)
 
@@ -517,7 +589,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -529,25 +600,30 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(1)
+        
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
 ```
 
-表示サイズ、位置が決定したら **CHART_Graph** に設定します。
+表示サイズ、位置が決定したら `Worksheets("グラフ").ChartObjects(1)` 内の各項目に設定します。
+
+| 設定する内容 | 項目 | 設定する値 |
+| :--- | :--- | :--- |
+| グラフの横幅 | Worksheets("グラフ").ChartObjects(1).Width | Worksheets("グラフ").Range("A1:J15").Width |
+| グラフの高さ | Worksheets("グラフ").ChartObjects(1).Height | Worksheets("グラフ").Range("A1:J15").Height |
+| グラフの表示位置の上端 | Worksheets("グラフ").ChartObjects(1).Top | Worksheets("グラフ").Range("A1:J15").Top |
+| グラフの表示位置の左端 | Worksheets("グラフ").ChartObjects(1).Left | Worksheets("グラフ").Range("A1:J15").Left |
 
 ```vb
 Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -559,19 +635,18 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
+        
+        With .ChartObjects(1)
+        
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
 ```
 
 ここまでの実行結果です。土台部分が指定したサイズに変更され、指定位置に移動しました。
@@ -582,14 +657,13 @@ Private Sub CommandButton1_Click()
 
 #### 1 系列目のグラフ
 
-グラフは `Worksheets("グラフ").ChartObjects(1).Chart` 内に定義します。
+グラフは `Worksheets("グラフ").ChartObjects(1).Chart` 内に定義します。`With` ･･･ `End With` でくくって定義します。
 
 ```vb
 Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -601,24 +675,25 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
+        
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+            
+            With .Chart
 
-            グラフの描画のコードを書く
+                グラフを描画するコードを記述
 
+            End With
+        
         End With
 
     End With
@@ -641,7 +716,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -653,24 +727,23 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→B列
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+            
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
 ```
 
 データの範囲が設定されるとすぐにグラフが描画されます。
@@ -706,28 +779,28 @@ Private Sub CommandButton1_Click()
 棒グラフの場合です。
 
 ```vb
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
                 End With
-            End With
 ```
 
 折れ線グラフの場合です。
 
 ```vb
-            .ChartType = xlLine                             ' データの種類：折れ線
+                .ChartType = xlLine                             ' データの種類：折れ線
             
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.line
-                    .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
-                    .Weight = 2                             ' 折れ線の太さ
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.line
+                        .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
+                        .Weight = 2                             ' 折れ線の太さ
+                    End With
                 End With
-            End With
 ```
 
 ここまでのコードの全体です。
@@ -737,7 +810,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -749,36 +821,38 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
-                End With
-            End With
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
             
-            ' 2 系列目のグラフ
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
+                End With
+                
+                ' 2 系列目のグラフ
 
-            ここに 2 系列目のグラフのコードを書く
+                ここに 2 系列目のグラフのコードを記述
+
+
+            End With
 
         End With
 
@@ -800,7 +874,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -812,38 +885,39 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
-                End With
-            End With
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
             
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
+                End With
+                
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
 
-                2 系列目のグラフの詳細を書く
+                    2 系列目のグラフの詳細を記述
+                
+                End With
 
             End With
 
@@ -877,19 +951,21 @@ End Sub
 - 太さは 2
 
 ```vb
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1").Value           ' 系列名
-                .Values = WS_Data.Range("D2:D11")           ' データの範囲
-                .ChartType = xlLine                         ' データの種類：折れ線
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
                 
-                With .Format.Line
-                    .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
-                    .Weight = 2                             ' 折れ線の太さ
+                    .AxisGroup = 2                              ' 第 2 軸
+                    .Name = WS_Data.Range("D1").Value           ' 系列名
+                    .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
+                    .ChartType = xlLine                         ' データの種類：折れ線
+                    
+                    With .Format.Line
+                        .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
+                        .Weight = 2                             ' 折れ線の太さ
+                    End With
+                
                 End With
-            
-            End With
 ```
 
 3 系列目、4 系列目のグラフがある場合、2 系列目と同じ方法で繰り返し定義します。
@@ -901,7 +977,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -913,45 +988,46 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+            
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
                 End With
-            End With
-            
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1").Value           ' 系列名
-                .Values = WS_Data.Range("D2:D11")           ' データの範囲
-                .ChartType = xlLine                         ' データの種類：折れ線
                 
-                With .Format.Line
-                    .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
-                    .Weight = 2                             ' 折れ線の太さ
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
+                
+                    .AxisGroup = 2                              ' 第 2 軸
+                    .Name = WS_Data.Range("D1").Value           ' 系列名
+                    .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
+                    .ChartType = xlLine                         ' データの種類：折れ線
+                    
+                    With .Format.Line
+                        .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
+                        .Weight = 2                             ' 折れ線の太さ
+                    End With
+                
                 End With
             
             End With
@@ -1056,34 +1132,34 @@ End Sub
 | 軸の値の最大値 | - | - | 50 | 1 |
 
 ```vb
-            ' 軸の書式設定
-            .HasTitle = True                                ' タイトル表示 On
-            With .ChartTitle
-                .Text = "インストール進捗実績表"            ' タイトル
-                .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
-            End With
+                ' 軸の書式設定
+                .HasTitle = True                                ' タイトル表示 On
+                With .ChartTitle
+                    .Text = "インストール進捗実績表"            ' タイトル
+                    .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
+                End With
+                
+                With .Axes(xlCategory, 1)                       ' 横軸
+                    .TickLabels.NumberFormatLocal = "m/d"           ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "インストール日"              ' ラベル
+                End With
+                
+                With .Axes(xlValue, 1)                          ' 縦軸：第1軸
+                    .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 50                              ' 軸の値の最大値
+                End With
             
-            With .Axes(xlCategory, 1)                       ' 横軸
-                .TickLabels.NumberFormatLocal = "m/d"           ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "インストール日"              ' ラベル
-            End With
-            
-            With .Axes(xlValue, 1)                          ' 縦軸：第1軸
-                .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 50                              ' 軸の値の最大値
-            End With
-        
-            With .Axes(xlValue, 2)                          ' 縦軸：第2軸
-                .TickLabels.NumberFormatLocal = "0%"            ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "進捗率(%)"                   ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 1                               ' 軸の値の最大値
-            End With
+                With .Axes(xlValue, 2)                          ' 縦軸：第2軸
+                    .TickLabels.NumberFormatLocal = "0%"            ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "進捗率(%)"                   ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 1                               ' 軸の値の最大値
+                End With
 ```
 
 ここまでのコードです。
@@ -1093,7 +1169,6 @@ Private Sub CommandButton1_Click()
 
     Dim WS_Data             As Worksheet                    ' シート「データ」
     Dim WS_Graph            As Worksheet                    ' シート「グラフ」
-    Dim CHART_Graph         As ChartObject                  ' グラフの表示領域
     Dim RNG_Graph           As Range                        ' グラフの表示場所
     
     '
@@ -1105,80 +1180,81 @@ Private Sub CommandButton1_Click()
     '
     ' 1 つめのグラフの作成
     '
-    
+    With WS_Graph
     ' グラフの表示領域作成
-    WS_Graph.Shapes.AddChart                                ' グラフの表示領域を追加 = グラフの土台を作成
-    Set CHART_Graph = WS_Graph.ChartObjects(1)
-    
-    With CHART_Graph
-    
-        ' グラフの表示場所
-        Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
-        .Width = RNG_Graph.Width                            ' グラフの横幅
-        .Height = RNG_Graph.Height                          ' グラフの高さ
-        .Top = RNG_Graph.Top                                ' グラフのトップ位置
-        .Left = RNG_Graph.Left                              ' グラフの左側の位置
+        .Shapes.AddChart                                        ' グラフの表示領域を追加 = グラフの土台を作成
         
-        With .Chart
+        With .ChartObjects(1)
         
-            ' 1 系列目のグラフ
-            .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
-            .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
-
-            With .SeriesCollection(1)
-                .Name = WS_Data.Range("C1").Value           ' 系列名
-                With .Format.Fill
-                    .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+            ' グラフの表示場所
+            Set RNG_Graph = WS_Graph.Range("A1:J15")            ' このセルの範囲にグラフを表示する
+            .Width = RNG_Graph.Width                            ' グラフの横幅
+            .Height = RNG_Graph.Height                          ' グラフの高さ
+            .Top = RNG_Graph.Top                                ' グラフのトップ位置
+            .Left = RNG_Graph.Left                              ' グラフの左側の位置
+            
+            With .Chart
+            
+                ' 1 系列目のグラフ
+                .SetSourceData WS_Data.Range("A1:A11,C1:C11")   ' データの範囲：横軸→A列、データ→C列
+                .ChartType = xlColumnClustered                  ' データの種類：棒グラフ
+    
+                With .SeriesCollection(1)
+                    .Name = WS_Data.Range("C1").Value           ' 系列名
+                    With .Format.Fill
+                        .ForeColor.RGB = RGB(169, 209, 142)     ' 棒グラフの塗りつぶしの色
+                    End With
                 End With
-            End With
-            
-            ' 2 系列目のグラフ
-            .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
-            With .SeriesCollection(2)                       ' 2 系列め
-            
-                .AxisGroup = 2                              ' 第 2 軸
-                .Name = WS_Data.Range("D1").Value           ' 系列名
-                .Values = WS_Data.Range("D2:D11")           ' データの範囲
-                .ChartType = xlLine                         ' データの種類：折れ線
                 
-                With .Format.Line
-                    .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
-                    .Weight = 2                             ' 折れ線の太さ
+                ' 2 系列目のグラフ
+                .SeriesCollection.NewSeries                     ' 新しいグラフの系列を追加　→　2 系列目
+                With .SeriesCollection(2)                       ' 2 系列め
+                
+                    .AxisGroup = 2                              ' 第 2 軸
+                    .Name = WS_Data.Range("D1").Value           ' 系列名
+                    .Values = WS_Data.Range("D2:D11").Value     ' データの範囲
+                    .ChartType = xlLine                         ' データの種類：折れ線
+                    
+                    With .Format.Line
+                        .ForeColor.RGB = RGB(192, 0, 0)         ' 折れ線の色
+                        .Weight = 2                             ' 折れ線の太さ
+                    End With
+                
+                End With
+                
+                ' 軸の書式設定
+                .HasTitle = True                                ' タイトル表示 On
+                With .ChartTitle
+                    .Text = "インストール進捗実績表"            ' タイトル
+                    .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
+                End With
+                
+                With .Axes(xlCategory, 1)                       ' 横軸
+                    .TickLabels.NumberFormatLocal = "m/d"           ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "インストール日"              ' ラベル
+                End With
+                
+                With .Axes(xlValue, 1)                          ' 縦軸：第1軸
+                    .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 50                              ' 軸の値の最大値
                 End With
             
-            End With
-            
-            ' 軸の書式設定
-            .HasTitle = True                                ' タイトル表示 On
-            With .ChartTitle
-                .Text = "インストール進捗実績表"            ' タイトル
-                .Format.TextFrame2.TextRange.Font.Size = 16 ' タイトルのフォントサイズ
-            End With
-            
-            With .Axes(xlCategory, 1)                       ' 横軸
-                .TickLabels.NumberFormatLocal = "m/d"           ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "インストール日"              ' ラベル
-            End With
-            
-            With .Axes(xlValue, 1)                          ' 縦軸：第1軸
-                .TickLabels.NumberFormatLocal = "#,##0"         ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "延べインストール台数(台)"    ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 50                              ' 軸の値の最大値
+                With .Axes(xlValue, 2)                          ' 縦軸：第2軸
+                    .TickLabels.NumberFormatLocal = "0%"            ' 書式
+                    .HasTitle = True                                ' ラベル表示 On
+                    .AxisTitle.Text = "進捗率(%)"                   ' ラベル
+                    .MinimumScale = 0                               ' 軸の値の最小値
+                    .MaximumScale = 1                               ' 軸の値の最大値
+                End With
+        
             End With
         
-            With .Axes(xlValue, 2)                          ' 縦軸：第2軸
-                .TickLabels.NumberFormatLocal = "0%"            ' 書式
-                .HasTitle = True                                ' ラベル表示 On
-                .AxisTitle.Text = "進捗率(%)"                   ' ラベル
-                .MinimumScale = 0                               ' 軸の値の最小値
-                .MaximumScale = 1                               ' 軸の値の最大値
-            End With
-    
         End With
-    
+        
     End With
 
 End Sub
