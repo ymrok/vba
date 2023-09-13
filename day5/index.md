@@ -430,3 +430,58 @@ End Sub
 実行後の状態です。 "kingdom" を含むセルを黄色で塗りつぶしました。
 
 ![実行前](img/2023-09-09_10h13_27.png)
+
+## VBA 関数 Weekday
+
+日付を元に対応する曜日を示す値を戻り値として返します。
+
+```vb
+Weekday(日付)
+```
+
+| 戻り値 | 意味 | 定数 |
+| :---: | :---: | :--- |
+| 1 | 日曜日 | vbSunday |
+| 2 | 月曜日 | vbMonday |
+| 3 | 火曜日 | vbTuesday |
+| 4 | 水曜日 | vbWednesday |
+| 5 | 木曜日 | vbThursday |
+| 6 | 金曜日 | vbFriday |
+| 7 | 土曜日 | vbSaturday |
+
+「定数」とは VBA が予め用意していて、決まった値が設定された変数のことです。定数に設定した値は変更できません。セルの塗りつぶしのときに使用したカラーコード（ vbYellow 等）も定数の一部です。上記の表からわかるとおり、実体は数字などです。例えば定数 vbSunday の実体は 1 です。曜日判定をしているコード内に 1 と書くより vbSunday と書いたほうがコードがよりわかりやすくなるというメリットがあります。
+
+日付から曜日を算出し、日付を日曜日なら赤色で、土曜日なら青色で塗りつぶすコードです。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim LONG_Row        As Long             ' 行番号
+    Dim LONG_Week       As Long             ' 曜日
+    
+    With Worksheets("データ")
+
+        For LONG_Row = 1 To 10 Step 1
+            LONG_Week = Weekday(.Cells(LONG_Row, 1).Value)  ' 曜日算出
+            If LONG_Week = vbSunday Then                    ' 日曜日？
+                .Cells(LONG_Row, 1).Interior.Color = vbRed
+            End If
+            If LONG_Week = vbSaturday Then                  ' 土曜日？
+                .Cells(LONG_Row, 1).Interior.Color = vbBlue
+            End If
+        Next LONG_Row
+    
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-13_14h41_37.png))
+
+![実行前](img/2023-09-13_14h42_06.png)
+
+実行後の状態です。日曜日が赤色、土曜日が青色で塗りつぶしました。
+
+![実行後](img/2023-09-13_14h42_29.png)
