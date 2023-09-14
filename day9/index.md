@@ -564,7 +564,7 @@ End Function
 
 `Function` プロシージャは作成済みなので `Sub` 型のプロシージャを作成します。
 
-### Sub プロシージャの構文
+### Sub プロシージャーの構文
 
 `Sub` プロシージャーを作成するときの構文です。
 
@@ -578,7 +578,7 @@ End Sub
 
 `Sub` プロシージャーには戻り値がないため、戻り値のデータ型の定義がありません。
 
-### Sub プロシージャを作成
+### Sub プロシージャーを作成
 
 今回は `Worksheet` 型のグローバル変数にシートを設定する `Sub` プロシージャを作成します。引数はありません。手続き名は WS_set にします。
 
@@ -620,7 +620,7 @@ Private Sub WS_Set()
 End Sub
 ```
 
-*** 作成した Sub プロシージャを呼び出す
+*** 作成した Sub プロシージャーを呼び出す
 
 `Sub` プロシージャー **CommandButton1_Click** や **CommandButton2_Click** から作成した `Sub` プロシージャを呼び出して使用するコードです。
 
@@ -810,7 +810,7 @@ Private Function WS_Del(ByVal STRING_Name As String) As Long
 End Function
 
 '
-' WorkSheet 型のグローバル変数にシートを設定するプロシージャ
+' WorkSheet 型のグローバル変数にシートを設定するプロシージャー
 '
 Private Sub WS_Set()
 
