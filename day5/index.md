@@ -170,7 +170,7 @@ WorksheetFunction.Sum(セルの範囲)
 Private Sub CommandButton1_Click()
 
     With Worksheets("データ")
-        .Cells(1, 2).Value = WorksheetFunction.Sum(.Range("A3", "E4").Value)
+        .Cells(1, 2).Value = WorksheetFunction.Sum(.Range("A3", "E4"))
     End With
     
 End Sub
@@ -252,6 +252,535 @@ End Sub
 実行後の状態です。シート「データ」の D 列に指定した形式で丸めた値が設定されました。累計台数の算出はセルに埋め込んだ `SUM` 関数で行っています。
 
 ![実行後](img/2023-09-08_19h53_26.png)
+
+## ワークシート関数 SUBTOAL
+
+リストの集計値を戻り値として返します。
+
+```vb
+WorksheetFunction.Subtotal(集計方法を指定する値, 集計対象範囲)
+```
+
+| 集計方法を指定する値<br>（非表示の行を含む） | 集計方法を指定する値<br>（非表示の行を除く） | 集計方法（戻り値） |
+| :---: | :---: | :-- |
+| 1 | 101 | 平均値 |
+| 2 | 102 | 数値が入っているセルの数 |
+| 3 | 103 | 値が入っているセルの数 |
+| 4 | 104 | 最大値 |
+| 5 | 105 | 最小値|
+| 6 | 106 | 積（乗算した結果） |
+| 7 | 107 | 標本を対象にした標準偏差（不偏標準偏差） |
+| 8 | 108 | 母集団を対象にした標準偏差 |
+| 9 | 109 | 合計値 |
+| 10 | 110 | 標本を対象にした分散（不偏分散） |
+| 11 | 111 | 母集団を対象にした分散 |
+
+「非表示」は以下のページで説明されている非表示を指します。はオートフィルターで表示されていない行のことではありません。
+
+行または列を表示または非表示にする  
+<https://support.microsoft.com/ja-jp/office/行または列を表示または非表示にする-659c2cad-802e-44ee-a614-dde8443579f8>
+
+VBA でコードを書く上で、おそらく、上述の「非表示」は使用することがないと思います。したがって、集計方法を指定する値は 1 ～ 11 を使用すれば良いでしょう。
+
+`SUBTOTAL` 関数の集計対象範囲になるのは、`Range` で指定するセルの範囲や `Columns` で指定する列に含まれるすべてのセルです。オートフィルター後であれば、`Range` や `Columns` で指定された範囲で画面に表示されているセルが対象です（オートフィルターで非表示になった行のセルは除外されます）。
+
+**「オートフィルター」は 7 日目の説明**をご確認ください
+
+### 通常の使用例
+
+#### 平均値を求める
+
+シート「データ」のセル A1 ～ A10 に設定された値の平均値を求め、セル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(1, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(1, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_21h54_05.png)
+
+実行後のシート「データ」の状態です。平均値が設定されました。
+
+![実行後](img/2023-09-15_21h54_56.png)
+
+#### 数値が入っているセルをカウントする
+
+シート「データ」のセル A1 ～ A10 で数値が入っているセルをカウントし、その数をセル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(2, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(2, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_22h06_05.png)
+
+実行後のシート「データ」の状態です。空や文字列が入ったセルを除き、数値が入ったセルをカウントしました。
+
+![実行後](img/2023-09-15_22h06_29.png)
+
+#### 値が入っているセルをカウントする
+
+シート「データ」のセル A1 ～ A10 で何らかの値が入っているセルをカウントし、その数をセル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(3, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(3, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_22h06_05.png)
+
+実行後のシート「データ」の状態です。空のセルを除き、何らかの値が入ったセルをカウントしました。
+
+![実行後](img/2023-09-15_22h10_35.png)
+
+#### 最大値を求める
+
+シート「データ」のセル A1 ～ A10 の中の最大値を求め、セル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(4, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(4, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_22h20_53.png)
+
+実行後のシート「データ」の状態です。最大値を求めました。
+
+![実行後](img/2023-09-15_22h21_12.png)
+
+#### 最小値を求める
+
+シート「データ」のセル A1 ～ A10 の中の最小値を求め、セル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(5, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(5, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_22h20_53.png)
+
+実行後のシート「データ」の状態です。最小値を求めました。
+
+![実行後](img/2023-09-15_22h32_08.png)
+
+#### 合計値を求める
+
+シート「データ」のセル A1 ～ A10 に設定された値の合計値を求め、セル C1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(9, .Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+セル A1 ～ A10 以外に値が入っていないのであれば、列 A を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 3).Value = WorksheetFunction.Subtotal(9, .Columns("A"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_21h54_05.png)
+
+実行後のシート「データ」の状態です。合計値が設定されました。
+
+![実行後](img/2023-09-15_22h45_04.png)
+
+### オートフィルター後の結果に使用した例
+
+#### オートフィルター後の平均値を求める
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列の平均値を求め、セル D1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(1, .Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+セル B1 ～ B11 以外に値が入っていないのであれば、`SUBTOTAL` 関数の集計対象に B 列を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(1, .Columns("B"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-15_22h56_45.png)
+
+実行後のシート「データ」の状態です。オートフィルター後に表示されている値の平均値が設定されました。
+
+![実行後](img/2023-09-15_22h57_05.png)
+
+#### オートフィルター後に数値が入っているセルをカウントする
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列で数値が入っているセルをカウントし、その数をセル D1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(2, .Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+セル B1 ～ B11 以外に値が入っていないのであれば、`SUBTOTAL` 関数の集計対象に B 列を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(2, .Columns("B"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_10h18_29.png)
+
+実行後のシート「データ」の状態です。文字が入ったセルを除き、数値が入ったセルをカウントしました。
+
+![実行後](img/2023-09-16_10h19_35.png)
+
+#### オートフィルター後に値が入っているセルをカウントする
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列で値が入っているセルをカウントし、その数をセル D1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(3, .Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+今回は B 列全体の指定はできません。対象を B 列にすると見出し（セル B1 ）もカウントされ、正しい結果にならないためです。
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_10h18_29.png)
+
+実行後のシート「データ」の状態です。オートフィルター後の値が入ったセルをカウントしました。
+
+![実行後](img/2023-09-16_10h46_05.png)
+
+#### オートフィルター後の最大値を求める
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列の値の最大値をセル D1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(4, .Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+セル B1 ～ B11 以外に値が入っていないのであれば、`SUBTOTAL` 関数の集計対象に B 列を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(4, .Columns("B"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_10h58_22.png)
+
+実行後のシート「データ」の状態です。オートフィルター後に表示されている値の最大値を設定しました。
+
+![実行後](img/2023-09-16_10h58_49.png)
+
+#### 最小値を求める
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列の値の最小値をセル D1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(5, .Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+セル B1 ～ B11 以外に値が入っていないのであれば、`SUBTOTAL` 関数の集計対象に B 列を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(5, .Columns("B"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_10h58_22.png)
+
+実行後のシート「データ」の状態です。オートフィルター後に表示されている値の最小値を設定しました。
+
+![実行後](img/2023-09-16_11h06_55.png)
+
+#### オートフィルター後の合計値を求める
+
+シート「データ」のセル A2 ～ B11 の中で A 列の値が "A" のときの B 列の合計値を求め、セル D1 に設定します。比較のため、ワークシート関数 `SUM` を使用した合計値をセル E1 に設定します。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(9, .Range("B2", "B11"))
+        .Cells(1, 5).Value = WorksheetFunction.Sum(.Range("B2", "B11"))
+    End With
+    
+End Sub
+```
+
+セル B1 ～ B11 以外に値が入っていないのであれば、集計対象に B 列を指定できます。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Range("A1", "A11").AutoFilter 1, "A"
+        .Cells(1, 4).Value = WorksheetFunction.Subtotal(9, .Columns("B"))
+        .Cells(1, 5).Value = WorksheetFunction.Sum(.Columns("B"))
+    End With
+    
+End Sub
+
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_11h19_44.png)
+
+実行後のシート「データ」の状態です。セル D1 が `SUBTOTAL` の、セル E1 が `SUM` の結果です。`SUBTOTAL` はオートフィルター後の値だけで合計値を算出しました。`SUM` はオートフィルターに関係なく指定した範囲に含まれる値の合計値を算出しました。
+
+![実行後](img/2023-09-16_11h20_07.png)
+
+## ワークシート関数 MAX / MIN
+
+指定した範囲に含まれる値の最大値、最小値を戻り値として返します。
+
+### 最大値
+
+```vb
+WorksheetFunction.Max(セルの範囲)
+```
+
+- セルの範囲
+  - 最大値を求めるセルの範囲
+
+### 最小値
+
+```vb
+WorksheetFunction.Max(セルの範囲)
+```
+
+- セルの範囲
+  - 最小値を求めるセルの範囲
+
+使用例です。セル A1 ～ A10 内の最大値と最小値を求めるコードです。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 4).Value = WorksheetFunction.Max(.Range("A1", "A10"))
+        .Cells(2, 4).Value = WorksheetFunction.Min(.Range("A1", "A10"))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_14h48_57.png)
+
+実行後のシート「データ」の状態です。最大値、最小値を求めました。
+
+![実行後](img/2023-09-16_14h49_25.png)
+
+この関数を日付に使用すると、「最大値　＝　最も新しい日」、「最小値　＝　最も古い日」になります。
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-16_14h55_01.png)
+
+実行後のシート「データ」の状態です。最大値に最も新しい日付を、最小値に最も古い日付を求めました。
+
+![実行後](img/2023-09-16_14h55_55.png)
 
 ## ワークシート関数をセルに埋め込む
 
@@ -484,3 +1013,85 @@ End Sub
 実行後の状態です。日曜日が赤色、土曜日が青色で塗りつぶしました。
 
 ![実行後](img/2023-09-13_14h42_29.png)
+
+VBA 関数 DateAdd
+
+日付に指定した時間間隔を加算した結果を戻り値として返します。
+
+```vb
+DateAdd(時間間隔, 追加する時間, 加算対象の日付)
+```
+
+| 時間間隔 | 説明 |
+| :---: | :---: |
+| yyyy | 年 |
+| q | 四半期 |
+| m | 月 |
+| d | 日 |
+| ww | 週 |
+
+シート「データ」のセル A1 の日付に指定した期間を加算した後の日付を算出するコードです。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    With Worksheets("データ")
+        .Cells(1, 4).Value = DateAdd("yyyy", .Cells(1, 2).Value, .Cells(1, 1))
+        .Cells(2, 4).Value = DateAdd("q", .Cells(2, 2).Value, .Cells(1, 1))
+        .Cells(3, 4).Value = DateAdd("m", .Cells(3, 2).Value, .Cells(1, 1))
+        .Cells(4, 4).Value = DateAdd("d", .Cells(4, 2).Value, .Cells(1, 1))
+        .Cells(5, 4).Value = DateAdd("ww", .Cells(5, 2).Value, .Cells(1, 1))
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-17_09h43_56.png)
+
+実行後のシート「データ」の状態です。D 列に指定した期間を加算した日付を設定しました。
+
+![実行後](img/2023-09-17_09h44_16.png)
+
+## VBA 関数 IsDate 
+
+指定した値が日付または時刻として正しい形式になっているか確認し、なっている場合は True を、なっていない場合は False を戻り値として返します。
+
+```vb
+IsDate(値)
+```
+
+シート「データ」のセル A1 ～ A11 までの値が日付 / 時刻として正しい値になっているか確認し、その結果をセル B1 ～ B11 に記録するコードです。
+
+```vb
+Private Sub CommandButton1_Click()
+
+    Dim LONG_Row        As Long         ' 行位置
+    Dim BOOL_Result     As Boolean      ' 判定結果
+       
+    With Worksheets("データ")
+        For LONG_Row = 1 To 11 Step 11
+            BOOL_Result = IsDate(.Cells(LONG_Row, 1).Value)
+            If BOOL_Result = True Then
+                .Cells(LONG_Row, 1) = "OK"
+            Else
+                .Cells(LONG_Row, 1) = "NG"
+            End If
+        Next LONG_Row
+    End With
+    
+End Sub
+```
+
+実行前の状態です。
+
+![実行前](img/2023-09-15_21h53_14.png)
+
+![実行前](img/2023-09-17_09h59_54.png)
+
+実行後のシート「データ」の状態です。「令和5年9月17日」のような和暦も日付として判断されました。
+
+![実行後](img/2023-09-17_10h01_51.png)
